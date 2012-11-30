@@ -1,0 +1,19 @@
+{
+    "name": "adambrett/backup",
+    "description": "Automated remote backups",
+    "authors": [
+        {
+            "name": "Adam Brett",
+            "email": "adam@adambrett.co.uk"
+        }
+    ],
+    "require": {
+
+    },
+    "require-dev": {
+        "mockery/mockery": ">=0.7.2",
+        "fzaninotto/faker": "~1.0",
+        "nelmio/alice": "1.0.x-dev"
+    },
+    "psr-0": { "AdamBrett\\Backup\\": "src/" }
+}

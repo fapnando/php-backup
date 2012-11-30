@@ -1,0 +1,45 @@
+<phpunit
+    bootstrap="./tests/bootstrap.php"
+    colors="true"
+    stopOnFailure="true"
+    >
+    <testsuite name="JobsSearch Test Suite">
+        <directory>./tests/</directory>
+    </testsuite>
+
+    <filter>
+        <whitelist>
+            <directory>./application/</directory>
+            <exclude>
+                <directory>./vendor/</directory>
+                <directory>./library/</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <listeners>
+        <listener
+            class="\Mockery\Adapter\Phpunit\TestListener"
+            file="vendor/mockery/mockery/library/Mockery/Adapter/Phpunit/TestListener.php"
+            ></listener>
+        </listeners>
+
+        <logging>
+            <log
+                type="coverage-html"
+                target="tests/logs/coverage"
+                title="JobsModel"
+                charset="UTF-8"
+                yui="true"
+                highlight="true"
+                lowUpperBound="35"
+                highLowerBound="70"
+            />
+                <log type="coverage-clover" target="tests/logs/clover.xml"/>
+                <log
+                    type="junit"
+                    target="tests/logs/junit.xml"
+                    logIncompleteSkipped="false"
+                />
+            </logging>
+</phpunit>
