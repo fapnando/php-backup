@@ -16,9 +16,12 @@
  * @link     http://github.com/adambrett/php-backup
  */
 
-namespace Backup;
+namespace BackupTests;
 
+use Faker\Factory as Faker;
 use Mockery;
+
+use Backup;
 
 /**
  * Backup
@@ -61,7 +64,7 @@ class BackupTest extends \PHPUnit_Framework_TestCase
         $destination = Mockery::mock('Destination\\DestinationInterface');
         $archive = Mockery::mock('Archive\\ArchiveInterface');
 
-        $backup = new Backup($source, $destination, $archive);
+        $backup = new Backup\Backup($source, $destination, $archive);
 
         $this->assertTrue($backup->run());
     }
@@ -88,32 +91,32 @@ class BackupTest extends \PHPUnit_Framework_TestCase
         $destination = Mockery::mock('Destination\\DestinationInterface');
         $archive = Mockery::mock('Archive\\ArchiveInterface');
 
-        $backup = new Backup($source, $destination, $archive);
+        $backup = new Backup\Backup($source, $destination, $archive);
 
         $this->assertTrue($backup->run());
     }
 
-    public function testRunAddsFilesToArchive()
-    {
-        $fixture = $this->faker->words(5);
+    // public function testRunAddsFilesToArchive()
+    // {
+    //     $fixture = $this->faker->words(5);
 
-        $source = Mockery::mock('Source\\SourceInterface');
-        $source->shouldReceive('readDir')
-            ->once()
-            ->withNoArgs()
-            ->andReturn($fixture);
+    //     $source = Mockery::mock('Source\\SourceInterface');
+    //     $source->shouldReceive('readDir')
+    //         ->once()
+    //         ->withNoArgs()
+    //         ->andReturn($fixture);
 
-        $destination = Mockery::mock('Destination\\DestinationInterface');
-        $archive = Mockery::mock('Archive\\ArchiveInterface');
-        $archive->shouldReceive('')
+    //     $destination = Mockery::mock('Destination\\DestinationInterface');
+    //     $archive = Mockery::mock('Archive\\ArchiveInterface');
+    //     $archive->shouldReceive('')
 
-        $backup = new Backup($source, $destination, $archive);
+    //     $backup = new Backup($source, $destination, $archive);
 
-        $this->assertTrue($backup->run());
-    }
+    //     $this->assertTrue($backup->run());
+    // }
 
-    public function testRunPassesArchiveToDestination()
-    {
+    // public function testRunPassesArchiveToDestination()
+    // {
 
-    }
+    // }
 }
