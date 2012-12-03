@@ -31,30 +31,53 @@ class Backup
 {
     protected $source;
     protected $destination;
+    protected $archive;
 
     /**
      * Constructor
      *
      * @param Source\SourceInterface           $source      Description.
      * @param Destination\DestinationInterface $destination Description.
+     * @param Archive\ArchiveInterface         $archive     Description.
      *
      * @return void
      */
     public function __construct(
         Source\SourceInterface $source,
-        Destination\DestinationInterface $destination
+        Destination\DestinationInterface $destination,
+        Archive\ArchiveInterface $archive
     ) {
         $this->source = $source;
         $this->destination = $destination;
+        $this->archive = $archive;
     }
 
     /**
      * Run
      *
+     * @param string $path      path to the directory to backup
+     * @param bool   $recursive has the function been called recursively?
+     *
      * @return void
      */
-    public function run()
+    public function run($path, $recursive = false)
     {
+        $this->archive->addEmptyDirectory($path);
 
+        $files = $this->source->directoryList($path);
+        foreach ($files as $file) {
+            if ($this->source->isDirectory($file)) {
+                $this->run($file);
+            } else {
+                $contents = $this->source->getFileContents($file);
+                $this->archive->addFileFromString($file, $contents);
+            }
+        }
+
+        if (!$recursive) {
+            return $this->destination->put($this->archive);
+        }
+
+        return true;
     }
 }
