@@ -46,38 +46,16 @@ class BackupTest extends \PHPUnit_Framework_TestCase
         $this->faker = Faker::create();
     }
 
-    /**
-     * RunCallsSourceReadDirTest
-     *
-     * @return void
-     */
-    public function testRunCallsSourceReadDirTest()
+    public function testRun()
     {
-        $list = $this->faker->words(5);
-
-        $source = Mockery::mock('Source\\SourceInterface');
-        $source->shouldReceive('readDir')
-            ->once()
-            ->withNoArgs()
-            ->andReturn($list);
-
-        $destination = Mockery::mock('Destination\\DestinationInterface');
-        $archive = Mockery::mock('Archive\\ArchiveInterface');
-
-        $backup = new Backup\Backup($source, $destination, $archive);
-
-        $this->assertTrue($backup->run());
-    }
-
-    public function testRunGetsFileContents()
-    {
+        $path = $this->faker->word;
         $list = $this->faker->words(5);
         $contents = $this->faker->paragraphs(5);
 
-        $source = Mockery::mock('Source\\SourceInterface');
-        $source->shouldReceive('readDir')
+        $source = Mockery::mock('Backup\\Source\\SourceInterface');
+        $source->shouldReceive('directoryList')
             ->once()
-            ->withNoArgs()
+            ->with($path)
             ->andReturn($list);
 
         for ($i = 0; $i < 5; $i++) {
@@ -86,14 +64,37 @@ class BackupTest extends \PHPUnit_Framework_TestCase
                 ->with($list[$i])
                 ->andReturn($contents[$i])
                 ->ordered();
+
+            $source->shouldReceive('isDirectory')
+                ->once()
+                ->with($list[$i])
+                ->andReturn(false)
+                ->ordered();
         }
 
-        $destination = Mockery::mock('Destination\\DestinationInterface');
-        $archive = Mockery::mock('Archive\\ArchiveInterface');
+        $archive = Mockery::mock('Backup\\Archive\\ArchiveInterface');
+        $archive->shouldReceive('addEmptyDirectory')
+            ->once()
+            ->with($path)
+            ->andReturn(true);
+
+        for ($i = 0; $i < 5; $i++) {
+            $archive->shouldReceive('addFileFromString')
+                ->with($list[$i], $contents[$i])
+                ->andReturn(true)
+                ->ordered();
+        }
+
+        $destination = Mockery::mock('Backup\\Destination\\DestinationInterface');
+        $destination->shouldReceive('put')
+            ->once()
+            ->with($archive)
+            ->andReturn(true);
+
 
         $backup = new Backup\Backup($source, $destination, $archive);
 
-        $this->assertTrue($backup->run());
+        $this->assertTrue($backup->run($path));
     }
 
     // public function testRunAddsFilesToArchive()
@@ -101,9 +102,9 @@ class BackupTest extends \PHPUnit_Framework_TestCase
     //     $fixture = $this->faker->words(5);
 
     //     $source = Mockery::mock('Source\\SourceInterface');
-    //     $source->shouldReceive('readDir')
+    //     $source->shouldReceive('directoryList')
     //         ->once()
-    //         ->withNoArgs()
+    //         ->with($path)
     //         ->andReturn($fixture);
 
     //     $destination = Mockery::mock('Destination\\DestinationInterface');
