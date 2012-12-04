@@ -16,10 +16,10 @@
  * @link     http://github.com/adambrett/php-backup
  */
 
-namespace Backup\Source;
+namespace Backup\Exception;
 
 /**
- * Backup Source Interface
+ * Backup Invalid Login Details Exception
  *
  * @category Backup
  * @package  Backup
@@ -27,34 +27,7 @@ namespace Backup\Source;
  * @license  New BSD LICENSE
  * @link     https://github.com/adambrett/php-backup
  */
-interface SourceInterface
+class InvalidLoginDetails extends \Exception
 {
-    /**
-     * Get File
-     *
-     * @param string $filename name / path to file to get
-     *
-     * @return string contents of the file
-     */
-    public function getFileContents($filename);
-
-    /**
-     * DirectoryList
-     *
-     * @param string $directory name / path of directory to list contents for
-     *
-     * @return array of file and directory paths
-     */
-    public function directoryList($directory);
-
-    /**
-     * IsDirectory
-     *
-     * Test to see if a path is a directory or a file
-     *
-     * @param mixed $path path to test.
-     *
-     * @return bool
-     */
-    public function isDirectory($path);
+    public $message = 'Invalid Login Details';
 }
