@@ -75,7 +75,7 @@ class Ftp implements SourceInterface
     {
         $tempHandle = fopen('php://temp', 'r+');
 
-        $found = ftp_fget($this->ftp, $tempHandle, $filename, FTP_ASCII, 0);
+        $found = ftp_fget($this->ftp, $tempHandle, $filename, FTP_BINARY, 0);
         if ($found === false) {
             throw new Exception\FileNotFound();
         }

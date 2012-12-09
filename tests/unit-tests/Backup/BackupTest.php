@@ -48,7 +48,7 @@ class BackupTest extends \PHPUnit_Framework_TestCase
 
     public function testRun()
     {
-        $path = $this->faker->word;
+        $path = $this->faker->word . '/';
         $list = $this->faker->words(5);
         $contents = $this->faker->paragraphs(5);
 
@@ -61,13 +61,13 @@ class BackupTest extends \PHPUnit_Framework_TestCase
         for ($i = 0; $i < 5; $i++) {
             $source->shouldReceive('isDirectory')
                 ->once()
-                ->with($list[$i])
+                ->with($path . $list[$i])
                 ->andReturn(false)
                 ->ordered();
 
             $source->shouldReceive('getFileContents')
                 ->once()
-                ->with($list[$i])
+                ->with($path . $list[$i])
                 ->andReturn($contents[$i])
                 ->ordered();
 
@@ -82,7 +82,7 @@ class BackupTest extends \PHPUnit_Framework_TestCase
 
         for ($i = 0; $i < 5; $i++) {
             $archive->shouldReceive('addFileFromString')
-                ->with($list[$i], $contents[$i])
+                ->with($path . $list[$i], $contents[$i])
                 ->andReturn(true)
                 ->ordered();
         }
