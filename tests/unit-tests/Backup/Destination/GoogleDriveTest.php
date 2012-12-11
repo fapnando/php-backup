@@ -34,26 +34,45 @@ use Backup;
  */
 class GoogleDriveTest extends \PHPUnit_Framework_TestCase
 {
-    public function testHelloWord()
+    protected $faker;
+
+    public function setUp()
     {
-        // $source = new Backup\Source\Ftp(
-        //     'hosting.adambrett.co.uk',
-        //     'chinnbro',
-        //     '5wdsq'
-        // );
+        $this->faker = Faker::create();
+    }
 
-        // $destination = new Backup\Destination\GoogleDrive(
-        //     '27373815357.apps.googleusercontent.com',
-        //     'zPNylzhLCucKGdHyBR8JnWwT',
-        //     '{"access_token":"ya29.AHES6ZSi_BqOvkwROV18kANIZNGiTzV02yTtjyYAhgY-nb9c9nC25g","token_type":"Bearer","expires_in":3600,"refresh_token":"1\/I28TBiqq-hRw-hVbtb8ZiCXnzLvhJ4x48_jGMOUnMVs","created":1354640946}'
-        // );
+    public function testPut()
+    {
+        $data = $this->faker->paragraph;
+        $mime = $this->faker->word;
 
-        // $backup = new Backup\Backup(
-        //     $source,
-        //     $destination,
-        //     new Backup\Archive\Zip('test-backup.zip')
-        // );
+        $archive = Mockery::mock('\\Backup\\Archive\\ArchiveInterface');
+        $archive->shouldReceive('getName')
+            ->once()
+            ->withNoArgs()
+            ->andReturn($data);
 
-        // $backup->run('/public_html/img/');
+        $archive->shouldReceive('getMimeType')
+            ->once()
+            ->withNoArgs()
+            ->andReturn($mime);
+
+        $files = Mockery::mock('\\stdClass');
+        $files->shouldReceive('insert')
+            ->with(
+                \Mockery::type('\\Google_DriveFile'),
+                array(
+                    'data' => $data,
+                    'mimeType' => $mime
+                )
+            );
+
+        $service = new \stdClass();
+        $service->files = $files;
+
+        $googleDrive = new \Backup\Destination\GoogleDrive($service);
+        $googleDrive->put($archive);
+
+        $this->assertTrue(true);
     }
 }
