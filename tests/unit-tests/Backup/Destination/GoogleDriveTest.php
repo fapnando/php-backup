@@ -43,6 +43,7 @@ class GoogleDriveTest extends \PHPUnit_Framework_TestCase
 
     public function testPut()
     {
+        $name = $this->faker->word;
         $data = $this->faker->paragraph;
         $mime = $this->faker->word;
 
@@ -50,17 +51,22 @@ class GoogleDriveTest extends \PHPUnit_Framework_TestCase
         $archive->shouldReceive('getName')
             ->once()
             ->withNoArgs()
-            ->andReturn($data);
+            ->andReturn($name);
 
         $archive->shouldReceive('getMimeType')
-            ->once()
+            ->twice()
             ->withNoArgs()
             ->andReturn($mime);
+
+        $archive->shouldReceive('toString')
+            ->once()
+            ->withNoArgs()
+            ->andReturn($data);
 
         $files = Mockery::mock('\\stdClass');
         $files->shouldReceive('insert')
             ->with(
-                \Mockery::type('\\Google_DriveFile'),
+                \Mockery::type('\Google_DriveFile'),
                 array(
                     'data' => $data,
                     'mimeType' => $mime
