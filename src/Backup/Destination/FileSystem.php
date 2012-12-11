@@ -19,7 +19,9 @@
 namespace Backup\Destination;
 
 /**
- * Backup Destination Interface
+ * Backup FileSystem Destination
+ *
+ * Save the backup to the local filesystem
  *
  * @category Backup
  * @package  Backup
@@ -27,8 +29,15 @@ namespace Backup\Destination;
  * @license  New BSD LICENSE
  * @link     https://github.com/adambrett/php-backup
  */
-interface DestinationInterface
+class FileSystem implements DestinationInterface
 {
+    protected $path;
+
+    public function __construct($path)
+    {
+        $this->path = $path;
+    }
+
     /**
      * Put
      *
@@ -36,5 +45,10 @@ interface DestinationInterface
      *
      * @return void
      */
-    public function put($archive);
+    public function put($archive)
+    {
+        $path = $this->path . DIRECTORY_SEPARATOR . $archive->getName();
+        $file = new \SplFileObject($path, 'w+');
+        $file->fwrite($archive->toString());
+    }
 }

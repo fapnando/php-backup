@@ -19,7 +19,7 @@
 namespace Backup\Archive;
 
 /**
- * Backup Archive Interface
+ * Dummy Backup Archive
  *
  * @category Backup
  * @package  Backup
@@ -27,8 +27,10 @@ namespace Backup\Archive;
  * @license  New BSD LICENSE
  * @link     https://github.com/adambrett/php-backup
  */
-interface ArchiveInterface
+class Dummy implements ArchiveInterface
 {
+    public $name = '';
+
     /**
      * __construct
      *
@@ -36,7 +38,10 @@ interface ArchiveInterface
      *
      * @return void
      */
-    public function __construct($name);
+    public function __construct($name = 'text.txt')
+    {
+        $this->name = $name;
+    }
 
     /**
      * AddDirectory
@@ -45,7 +50,10 @@ interface ArchiveInterface
      *
      * @return void
      */
-    public function addEmptyDirectory($directoryName);
+    public function addEmptyDirectory($directoryName)
+    {
+        return null;
+    }
 
     /**
      * AddFileFromString
@@ -55,14 +63,20 @@ interface ArchiveInterface
      *
      * @return void
      */
-    public function addFileFromString($fileName, $fileContents);
+    public function addFileFromString($fileName, $fileContents)
+    {
+        return null;
+    }
 
     /**
      * GetName
      *
      * @return string
      */
-    public function getName();
+    public function getName()
+    {
+        return $this->name;
+    }
 
     /**
      * GetMimeType
@@ -72,7 +86,10 @@ interface ArchiveInterface
      *
      * @return string
      */
-    public function getMimeType();
+    public function getMimeType()
+    {
+        return 'text/plain';
+    }
 
     /**
      * ToString
@@ -82,5 +99,8 @@ interface ArchiveInterface
      *
      * @return string
      */
-    public function toString();
+    public function toString()
+    {
+        return 'Hello World.';
+    }
 }

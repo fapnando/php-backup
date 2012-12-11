@@ -12,7 +12,7 @@
  * @package  Backup
  * @author   Adam Brett <adam@adambrett.co.uk>
  * @license  New BSD LICENSE
- * @version  1.0
+ * @version  0.1
  * @link     http://github.com/adambrett/php-backup
  */
 
@@ -42,9 +42,19 @@ interface SourceInterface
      * DirectoryList
      *
      * @param string $directory name / path of directory to list contents for
-     * @param bool   $recursive recursively list or not.
      *
      * @return array of file and directory paths
      */
-    public function directoryList($directory, $recursive = false);
+    public function directoryList($directory);
+
+    /**
+     * IsDirectory
+     *
+     * Test to see if a path is a directory or a file
+     *
+     * @param mixed $path path to test.
+     *
+     * @return bool
+     */
+    public function isDirectory($path);
 }

@@ -16,10 +16,10 @@
  * @link     http://github.com/adambrett/php-backup
  */
 
-namespace Backup\Destination;
+namespace Backup\Exception;
 
 /**
- * Backup Destination Interface
+ * Backup Invalid Login Details Exception
  *
  * @category Backup
  * @package  Backup
@@ -27,14 +27,7 @@ namespace Backup\Destination;
  * @license  New BSD LICENSE
  * @link     https://github.com/adambrett/php-backup
  */
-interface DestinationInterface
+class InvalidLoginDetails extends \Exception
 {
-    /**
-     * Put
-     *
-     * @param ArchiveInterface $archive archive to save
-     *
-     * @return void
-     */
-    public function put($archive);
+    public $message = 'Invalid Login Details';
 }

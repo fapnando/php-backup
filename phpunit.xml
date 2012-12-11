@@ -1,7 +1,6 @@
 <phpunit
     bootstrap="./tests/bootstrap.php"
     colors="true"
-    stopOnFailure="true"
     >
     <testsuite name="JobsSearch Test Suite">
         <directory>./tests/</directory>

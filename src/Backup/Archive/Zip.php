@@ -19,7 +19,7 @@
 namespace Backup\Archive;
 
 /**
- * Backup Archive Interface
+ * Backup Zip Archive
  *
  * @category Backup
  * @package  Backup
@@ -27,8 +27,14 @@ namespace Backup\Archive;
  * @license  New BSD LICENSE
  * @link     https://github.com/adambrett/php-backup
  */
-interface ArchiveInterface
+class Zip implements ArchiveInterface
 {
+    public $mime = 'application/zip';
+    public $name;
+
+    protected $tmpFile;
+    protected $archive;
+
     /**
      * __construct
      *
@@ -36,7 +42,14 @@ interface ArchiveInterface
      *
      * @return void
      */
-    public function __construct($name);
+    public function __construct($name)
+    {
+        $this->name = $name;
+
+        $this->tmpFile = tempnam(sys_get_temp_dir(), $this->name);
+        $this->archive = new \ZipArchive();
+        $this->archive->open($this->tmpFile);
+    }
 
     /**
      * AddDirectory
@@ -45,7 +58,10 @@ interface ArchiveInterface
      *
      * @return void
      */
-    public function addEmptyDirectory($directoryName);
+    public function addEmptyDirectory($directoryName)
+    {
+        $this->archive->addEmptyDir($directoryName);
+    }
 
     /**
      * AddFileFromString
@@ -55,14 +71,20 @@ interface ArchiveInterface
      *
      * @return void
      */
-    public function addFileFromString($fileName, $fileContents);
+    public function addFileFromString($fileName, $fileContents)
+    {
+        $this->archive->addFromString($fileName, $fileContents);
+    }
 
     /**
      * GetName
      *
      * @return string
      */
-    public function getName();
+    public function getName()
+    {
+        return $this->name;
+    }
 
     /**
      * GetMimeType
@@ -72,7 +94,10 @@ interface ArchiveInterface
      *
      * @return string
      */
-    public function getMimeType();
+    public function getMimeType()
+    {
+        return $this->mime;
+    }
 
     /**
      * ToString
@@ -82,5 +107,11 @@ interface ArchiveInterface
      *
      * @return string
      */
-    public function toString();
+    public function toString()
+    {
+        $this->archive->close();
+        $contents = file_get_contents($this->tmpFile);
+        unlink($this->tmpFile);
+        return $contents;
+    }
 }

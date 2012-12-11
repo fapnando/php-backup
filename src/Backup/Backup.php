@@ -12,7 +12,7 @@
  * @package  Backup
  * @author   Adam Brett <adam@adambrett.co.uk>
  * @license  New BSD LICENSE
- * @version  1.0
+ * @version  0.1
  * @link     http://github.com/adambrett/php-backup
  */
 
@@ -62,15 +62,19 @@ class Backup
      */
     public function run($path, $recursive = false)
     {
+        if (substr($path, -1) !== '/') {
+            $path .= '/';
+        }
+
         $this->archive->addEmptyDirectory($path);
 
         $files = $this->source->directoryList($path);
         foreach ($files as $file) {
-            if ($this->source->isDirectory($file)) {
+            if ($this->source->isDirectory($path . $file)) {
                 $this->run($file);
             } else {
-                $contents = $this->source->getFileContents($file);
-                $this->archive->addFileFromString($file, $contents);
+                $contents = $this->source->getFileContents($path . $file);
+                $this->archive->addFileFromString($path . $file, $contents);
             }
         }
 

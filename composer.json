@@ -1,19 +1,48 @@
 {
     "name": "adambrett/backup",
+    "type": "library",
+    "keywords": ["backup","transfer", "ftp", "archive", "zip"],
     "description": "Automated remote backups",
+    "homepage": "http://github.com/adambrett/php-spider",
+    "license": "New BSD",
     "authors": [
         {
             "name": "Adam Brett",
-            "email": "adam@adambrett.co.uk"
+            "email": "adam@adambrett.co.uk",
+            "homepage": "http://adambrett.co.uk",
+            "role": "Developer"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "google/api",
+                "version": "0.6.0",
+                "dist": {
+                    "url": "http://google-api-php-client.googlecode.com/files/google-api-php-client-0.6.0.tar.gz",
+                    "type": "tar"
+                },
+                "source": {
+                    "url": "http://google-api-php-client.googlecode.com/svn/",
+                    "type": "svn",
+                    "reference": "trunk/"
+                },
+                "autoload": {
+                    "classmap": ["src/", "src/auth", "src/cache", "src/contrib", "src/external", "src/io", "src/service"]
+                }
+            }
         }
     ],
     "require": {
-
+        "google/api": "*"
     },
     "require-dev": {
+        "php": ">=5.3.0",
+        "mikey179/vfsStream": "v1.1.0",
         "mockery/mockery": ">=0.7.2",
         "fzaninotto/faker": "~1.0",
         "nelmio/alice": "1.0.x-dev"
     },
-    "psr-0": { "AdamBrett\\Backup\\": "src/" }
+    "psr-0": { "Backup\\": "src/" }
 }
