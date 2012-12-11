@@ -12,7 +12,7 @@
  * @package  Backup
  * @author   Adam Brett <adam@adambrett.co.uk>
  * @license  New BSD LICENSE
- * @version  1.0
+ * @version  0.1
  * @link     http://github.com/adambrett/php-backup
  */
 

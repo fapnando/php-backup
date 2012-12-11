@@ -19,9 +19,7 @@
 namespace Backup\Destination;
 
 /**
- * Backup FileSystem Destination
- *
- * Save the backup to the local filesystem
+ * Backup Google Drive Destination
  *
  * @category Backup
  * @package  Backup
@@ -29,13 +27,20 @@ namespace Backup\Destination;
  * @license  New BSD LICENSE
  * @link     https://github.com/adambrett/php-backup
  */
-class FileSystem implements DestinationInterface
+class GoogleDrive implements DestinationInterface
 {
-    protected $path;
+    protected $client;
+    protected $service;
 
-    public function __construct($path)
+    public function __construct($clientId, $clientSecret, $accessToken)
     {
-        $this->path = $path;
+        $this->client = new \Google_Client();
+
+        $this->client->setClientId($clientId);
+        $this->client->setClientSecret($clientSecret);
+        $this->client->setAccessToken($accessToken);
+
+        $this->service = new \Google_DriveService($this->client);
     }
 
     /**
@@ -47,8 +52,16 @@ class FileSystem implements DestinationInterface
      */
     public function put($archive)
     {
-        $path = $this->path . DIRECTORY_SEPARATOR . $archive->getName();
-        $file = new \SplFileObject($path, 'w+');
-        $file->fwrite($archive->toString());
+        $file = new \Google_DriveFile();
+        $file->setTitle($archive->getName());
+        $file->setMimeType($archive->getMimeType());
+
+        $this->service->files->insert(
+            $file,
+            array(
+                'data' => $archive->toString(),
+                'mimeType' => $archive->getMimeType()
+            )
+        );
     }
 }
