@@ -1,10 +1,16 @@
 {
     "name": "adambrett/backup",
+    "type": "library",
+    "keywords": ["backup","transfer", "ftp", "archive", "zip"],
     "description": "Automated remote backups",
+    "homepage": "http://github.com/adambrett/php-spider",
+    "license": "New BSD",
     "authors": [
         {
             "name": "Adam Brett",
-            "email": "adam@adambrett.co.uk"
+            "email": "adam@adambrett.co.uk",
+            "homepage": "http://adambrett.co.uk",
+            "role": "Developer"
         }
     ],
     "repositories": [
@@ -32,6 +38,7 @@
         "google/api": "*"
     },
     "require-dev": {
+        "php": ">=5.3.0",
         "mikey179/vfsStream": "v1.1.0",
         "mockery/mockery": ">=0.7.2",
         "fzaninotto/faker": "~1.0",
