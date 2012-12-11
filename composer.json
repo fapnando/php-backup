@@ -3,7 +3,7 @@
     "type": "library",
     "keywords": ["backup","transfer", "ftp", "archive", "zip"],
     "description": "Automated remote backups",
-    "homepage": "http://github.com/adambrett/php-spider",
+    "homepage": "http://github.com/adambrett/php-backup",
     "license": "New BSD",
     "authors": [
         {
