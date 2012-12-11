@@ -21,6 +21,16 @@ namespace Backup\Destination;
 /**
  * Backup Google Drive Destination
  *
+ *   $client = new \Google_Client();
+ *
+ *   $client->setClientId($clientId);
+ *   $client->setClientSecret($clientSecret);
+ *   $client->setAccessToken($accessToken);
+ *
+ *   $service = new \Google_DriveService($client);
+ *
+ *   $destination = new \Backup\Destination\GoogleDrive($service);
+ *
  * @category Backup
  * @package  Backup
  * @author   Adam Brett <adam@adambrett.co.uk>
@@ -29,18 +39,18 @@ namespace Backup\Destination;
  */
 class GoogleDrive implements DestinationInterface
 {
-    protected $client;
     protected $service;
 
-    public function __construct($clientId, $clientSecret, $accessToken)
+    /**
+     * __construct
+     *
+     * @param \Google_DriveService $service Google drive service instance.
+     *
+     * @return void
+     */
+    public function __construct($service)
     {
-        $this->client = new \Google_Client();
-
-        $this->client->setClientId($clientId);
-        $this->client->setClientSecret($clientSecret);
-        $this->client->setAccessToken($accessToken);
-
-        $this->service = new \Google_DriveService($this->client);
+        $this->service = $service;
     }
 
     /**
