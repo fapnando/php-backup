@@ -15,8 +15,4 @@
  * @version  0.1
  * @link     http://github.com/adambrett/php-backup
  */
-
-require dirname(__FILE__) . '/../src/Backup/Autoload.php';
-\Backup\Autoload::register();
-
 require dirname(__FILE__) . '/../vendor/autoload.php';

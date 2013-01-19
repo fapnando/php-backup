@@ -34,12 +34,12 @@ use Backup;
  */
 class FtpTest extends \PHPUnit_Framework_TestCase
 {
-    static $faker;
-    static $fixtures;
-    static $fixturePath;
+    public static $faker;
+    public static $fixtures;
+    public static $fixturePath;
 
-    static $server;
-    static $pipes;
+    public static $server;
+    public static $pipes;
 
     protected $ftp;
 

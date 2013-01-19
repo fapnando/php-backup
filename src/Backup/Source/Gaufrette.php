@@ -11,7 +11,7 @@
  * @category Backup
  * @package  Backup
  * @author   Adam Brett <adam@adambrett.co.uk>
- * @license  New BSD LICENSE
+ * @license  BSD-3-Clause
  * @version  0.1
  * @link     http://github.com/adambrett/php-backup
  */
@@ -26,7 +26,7 @@ use Backup\Exception;
  * @category Backup
  * @package  Backup
  * @author   Adam Brett <adam@adambrett.co.uk>
- * @license  New BSD LICENSE
+ * @license  BSD-3-Clause
  * @link     https://github.com/adambrett/php-backup
  */
 class Gaufrette implements SourceInterface
@@ -47,7 +47,7 @@ class Gaufrette implements SourceInterface
      */
     public function getFileContents($filename)
     {
-        $this->adapter->read($filename);
+        return $this->adapter->read($filename);
     }
 
     /**
