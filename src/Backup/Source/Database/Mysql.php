@@ -62,6 +62,11 @@ class MySQL implements SourceInterface
 
         foreach ($this->tables($database) as $table) {
             $result = $this->connection->query("SHOW CREATE TABLE `$database`.`$table`");
+
+            if ($result === false) {
+                throw new Exception\MysqlQueryError($this->connection->error);
+            }
+
             $row = $result->fetch_assoc();
             $result->close();
 
@@ -98,6 +103,11 @@ class MySQL implements SourceInterface
             $this->databases = array();
 
             $result = $this->connection->query('SHOW DATABASES');
+
+            if ($result === false) {
+                throw new Exception\MysqlQueryError($this->connection->error);
+            }
+
             while ($database = $result->fetch_row()) {
                 $this->databases[] = $database[0];
             }
@@ -113,6 +123,11 @@ class MySQL implements SourceInterface
         $tables = array();
 
         $result = $this->connection->query("SHOW TABLES FROM `$database`");
+
+        if ($result === false) {
+            throw new Exception\MysqlQueryError($this->connection->error);
+        }
+
         while ($row = $result->fetch_row()) {
             $tables[] = $row[0];
         }
@@ -125,6 +140,11 @@ class MySQL implements SourceInterface
     {
         $numeric = array();
         $result = $this->connection->query("SHOW COLUMNS FROM `$database`.`$table`");
+
+        if ($result === false) {
+            throw new Exception\MysqlQueryError($this->connection->error);
+        }
+
         $columns = array();
         while ($row = $result->fetch_assoc()) {
             $column = $row['Field'];
@@ -140,6 +160,10 @@ class MySQL implements SourceInterface
 
         $values = array();
         $result = $this->connection->query("SELECT * FROM `$database`.`$table`", MYSQLI_USE_RESULT);
+
+        if ($result === false) {
+            throw new Exception\MysqlQueryError($this->connection->error);
+        }
 
         while ($row = $result->fetch_assoc()) {
             $tmp = '(';

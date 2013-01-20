@@ -60,18 +60,18 @@ class Backup
      *
      * @return void
      */
-    public function run($path, $recursive = false)
+    public function run($path = '/', $recursive = false)
     {
         if (substr($path, -1) !== '/') {
             $path .= '/';
         }
 
         $this->archive->addEmptyDirectory($path);
-
         $files = $this->source->directoryList($path);
+
         foreach ($files as $file) {
             if ($this->source->isDirectory($path . $file)) {
-                $this->run($file);
+                $this->run($file, true);
             } else {
                 $contents = $this->source->getFileContents($path . $file);
                 $this->archive->addFileFromString($path . $file, $contents);

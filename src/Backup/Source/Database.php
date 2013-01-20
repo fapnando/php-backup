@@ -47,7 +47,7 @@ class Database implements SourceInterface
      */
     public function getFileContents($database)
     {
-        return $this->adapter->dump(substr($database, 1));
+        return $this->adapter->dump($this->normalise($database));
     }
 
     /**
@@ -59,7 +59,17 @@ class Database implements SourceInterface
      */
     public function directoryList($database)
     {
-        return $this->adapter->databases();
+        if ($database !== '/') {
+            return array($this->normalise($database) . '.sql');
+        }
+
+        $databases = $this->adapter->databases();
+
+        foreach ($databases as &$database) {
+            $database = $database . '.sql';
+        }
+
+        return $databases;
     }
 
     /**
@@ -72,5 +82,11 @@ class Database implements SourceInterface
     public function isDirectory($database)
     {
         return false;
+    }
+
+    protected function normalise($database)
+    {
+        $parts = explode('/', trim($database, '/'));
+        return rtrim(array_pop($parts), '.sql');
     }
 }
