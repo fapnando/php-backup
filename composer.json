@@ -4,7 +4,7 @@
     "keywords": ["backup","transfer", "ftp", "archive", "zip"],
     "description": "Automated remote backups",
     "homepage": "http://github.com/adambrett/php-backup",
-    "license": "New BSD",
+    "license": "BSD-3-Clause",
     "authors": [
         {
             "name": "Adam Brett",
@@ -44,5 +44,9 @@
         "fzaninotto/faker": "~1.0",
         "nelmio/alice": "1.0.x-dev"
     },
-    "psr-0": { "Backup\\": "src/" }
+    "autoload": {
+        "psr-0": {
+            "Backup": "src"
+        }
+    }
 }
