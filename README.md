@@ -1,6 +1,8 @@
 php-backup
 ==========
 
+[![Build Status](https://travis-ci.org/adambrett/php-backup.png?branch=master)](https://travis-ci.org/adambrett/php-backup?branch=master)
+
 php-backup is a general-purpose, easily-extensible file transfer and archive library for PHP.  It is framework agnostic, allowing you to use it with your framework of choice (or none at all).
 
 It will allow you to transfer a directory and its contents from one place to another without having to worry about the finer details.  The library consists of 4 component parts:
